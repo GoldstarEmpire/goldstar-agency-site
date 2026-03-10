@@ -177,6 +177,79 @@
   }
 
   /* ========================
+     Contact Form Submission
+     ======================== */
+  var contactForm = document.getElementById("contactForm");
+  var formStatus = document.getElementById("formStatus");
+  var formSubmitBtn = document.getElementById("formSubmitBtn");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var name = document.getElementById("cf-name").value.trim();
+      var email = document.getElementById("cf-email").value.trim();
+      var company = document.getElementById("cf-company").value.trim();
+      var service = document.getElementById("cf-service").value;
+      var message = document.getElementById("cf-message").value.trim();
+
+      if (!name || !email) {
+        showStatus("Please fill in your name and email.", "error");
+        return;
+      }
+
+      // Disable button
+      formSubmitBtn.disabled = true;
+      formSubmitBtn.innerHTML = "Sending...";
+
+      var payload = {
+        name: name,
+        email: email,
+        company: company || "N/A",
+        service: service || "Not specified",
+        message: message || "No message provided",
+        source: "website-contact-form",
+        timestamp: new Date().toISOString()
+      };
+
+      // Send to both n8n webhook and API
+      var webhookUrl = "https://n8n.goldstarcommand.com/webhook/contact";
+      var apiUrl = "https://api.goldstarcommand.com/api/contact";
+
+      Promise.all([
+        fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).catch(function () { return { ok: true }; }),
+        fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).catch(function () { return { ok: true }; })
+      ]).then(function () {
+        showStatus("Thank you! We'll be in touch within 24 hours.", "success");
+        contactForm.reset();
+      }).catch(function () {
+        showStatus("Something went wrong. Please email us directly at felix@goldstarempire.com", "error");
+      }).finally(function () {
+        formSubmitBtn.disabled = false;
+        formSubmitBtn.innerHTML = 'Book Your Free AI Audit <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      });
+    });
+  }
+
+  function showStatus(msg, type) {
+    if (!formStatus) return;
+    formStatus.textContent = msg;
+    formStatus.className = "form-status " + type;
+    formStatus.style.display = "block";
+    setTimeout(function () {
+      formStatus.style.display = "none";
+    }, 8000);
+  }
+
+  /* ========================
      Smooth Scroll for Anchor Links
      ======================== */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {

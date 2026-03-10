@@ -1200,3 +1200,117 @@ a:hover { color: var(--color-primary-hover); }
     transition: none;
   }
 }
+
+/* ====== Contact Form ====== */
+.contact-form {
+  max-width: 680px;
+  margin: 2.5rem auto 0;
+  text-align: left;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-muted, #b0aeaa);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid var(--border, rgba(255,255,255,0.12));
+  border-radius: 8px;
+  background: var(--surface, rgba(255,255,255,0.04));
+  color: var(--text, #e8e6e3);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-faint, rgba(255,255,255,0.3));
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent, #c8a951);
+  box-shadow: 0 0 0 3px rgba(200, 169, 81, 0.15);
+}
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: #1a1a1a;
+  color: #e8e6e3;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-submit {
+  width: 100%;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-status {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-status.success {
+  background: rgba(67, 122, 34, 0.15);
+  color: #6daa45;
+  border: 1px solid rgba(67, 122, 34, 0.3);
+}
+
+.form-status.error {
+  background: rgba(161, 44, 123, 0.15);
+  color: #d163a7;
+  border: 1px solid rgba(161, 44, 123, 0.3);
+}
